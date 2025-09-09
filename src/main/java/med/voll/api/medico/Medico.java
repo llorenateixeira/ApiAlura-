@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.voll.api.endereco.Endereco;
 
 //JPA
 @Table(name = "medicos")
-@Entity(nome = "Medico")
+@Entity (name = "Medico")
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -23,6 +24,14 @@ public class Medico {
        @Enumerated(EnumType.STRING)
        private Especialidade especialidade;
 
-       @Enumerated
+       @Embedded
        private Endereco endereco;
+
+       public Medico(DadosCadastroMedicos dados){
+              this.nome = dados.nome();
+              this.email = dados.email();
+              this.crm = dados.crm();
+              this.especialidade = dados.especialidade();
+              this.endereco = new Endereco(dados.endereco());
+       }
 }
